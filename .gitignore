@@ -4,7 +4,7 @@ build/
 .env
 uploads/
 renders/
-scenes/
+# scenes/ is tracked so videos are available on Render
 data/
 *.log
 .DS_Store
