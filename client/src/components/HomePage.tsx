@@ -70,7 +70,7 @@ export default function HomePage({ onCreateRoom, onJoinRoom, error, connected, u
     }
 
     // Her seferinde rastgele bir bekleme süresiyle kendini çağıran döngü
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     const scheduleNextSpawn = () => {
       spawnQuote();
       // 1.5 ile 2.5 saniye arasında rastgele bir sürede yeni replik yolla
