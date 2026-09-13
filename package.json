@@ -15,8 +15,7 @@
     "db:generate": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev --name init",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:setup": "npm run db:migrate && npm run db:seed",
-    "postinstall": "npx prisma generate"
+    "db:setup": "npm run db:migrate && npm run db:seed"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",
