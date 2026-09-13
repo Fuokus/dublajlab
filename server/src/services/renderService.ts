@@ -45,8 +45,7 @@ async function getVideoDuration(videoPath: string): Promise<number> {
         '-show_entries', 'format=duration',
         '-of', 'default=noprint_wrappers=1:nokey=1',
         videoPath,
-      ],
-      { shell: true }
+      ]
     );
 
     let output = '';
@@ -195,7 +194,6 @@ export async function renderFinalVideo(
       '-c:v', 'copy',
       '-c:a', 'aac',
       '-b:a', '192k',
-      '-shortest',
       '-y',
       outputPath
     );
