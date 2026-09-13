@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import VideoPlayer from './VideoPlayer';
 import DialogueRecorder from './DialogueRecorder';
 import PlayerList from './PlayerList';
-import { startRender } from '../utils/api';
+import { startRender, API_URL } from '../utils/api';
 import type { Room, Dialogue } from '../types';
 
 interface GameScreenProps {
@@ -52,7 +52,7 @@ export default function GameScreen({ room, playerId, onRecordingComplete, error 
     }
   };
 
-  const videoSrc = room.scene?.videoPath ? `/${room.scene.videoPath}` : '';
+  const videoSrc = room.scene?.videoPath ? `${API_URL}/${room.scene.videoPath}` : '';
 
   return (
     <div className="min-h-screen p-4 md:p-6 bg-ambient">

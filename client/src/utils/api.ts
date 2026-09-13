@@ -2,7 +2,8 @@ import type { Scene, Recording } from '../types';
 import { getToken } from './auth';
 
 // Vercel gibi ortamlarda statik sunucu olduğu için backend adresini env dosyasından alıyoruz
-const API_BASE = (import.meta.env.VITE_API_URL || '') + '/api';
+export const API_URL = import.meta.env.VITE_API_URL || '';
+const API_BASE = API_URL + '/api';
 
 /**
  * Tüm sahneleri getir

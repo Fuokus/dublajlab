@@ -1,4 +1,5 @@
 import type { RenderProgress } from '../types';
+import { API_URL } from '../utils/api';
 
 interface FinalScreenProps {
   renderProgress: RenderProgress | null;
@@ -16,7 +17,7 @@ export default function FinalScreen({ renderProgress, renderOutput, roomCode, on
   const handleDownload = () => {
     if (renderOutput) {
       const link = document.createElement('a');
-      link.href = `/${renderOutput}`;
+      link.href = `${API_URL}/${renderOutput}`;
       link.download = `dublajlab_${roomCode}_${Date.now()}.mp4`;
       link.click();
     }
@@ -77,7 +78,7 @@ export default function FinalScreen({ renderProgress, renderOutput, roomCode, on
             <div className="card-glass p-2">
               <div className="relative overflow-hidden rounded-xl bg-black border border-white/5 shadow-2xl">
                 <video
-                  src={`/${renderOutput}`}
+                  src={`${API_URL}/${renderOutput}`}
                   controls
                   autoPlay
                   className="w-full block"

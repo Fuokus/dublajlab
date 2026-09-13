@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { createScene, updateScene, uploadSceneVideo } from '../../utils/api';
+import { createScene, updateScene, uploadSceneVideo, API_URL } from '../../utils/api';
 import type { Scene, Character, Dialogue } from '../../types';
 
 type DraftDialogue = Omit<Dialogue, 'id' | 'characterId' | 'createdAt' | 'updatedAt'> & { id?: string };
@@ -235,7 +235,7 @@ export default function SceneEditor({ scene, onClose }: { scene: Scene | null, o
                 <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
                   <video 
                     ref={videoRef} 
-                    src={`/${videoPath}`} 
+                    src={`${API_URL}/${videoPath}`} 
                     controls 
                     className="w-full bg-black block"
                   />
