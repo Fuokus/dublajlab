@@ -235,6 +235,15 @@ export async function renderFinalVideo(
       });
     });
 
+    // FFmpeg bittikten sonra dosyanın oluşturulduğunu ve içinin boş olmadığını doğrula
+    if (!fs.existsSync(outputPath)) {
+      throw new Error('Video dosyası oluşturulamadı (Dosya yok)');
+    }
+    const stat = fs.statSync(outputPath);
+    if (stat.size < 1000) { // 1KB'dan küçükse muhtemelen bozuktur
+      throw new Error(`Oluşturulan video dosyası çok küçük veya bozuk (${stat.size} bytes)`);
+    }
+
     // Render kaydını güncelle
     await prisma.render.update({
       where: { id: render.id },

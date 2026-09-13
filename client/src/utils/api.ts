@@ -6,7 +6,7 @@ let envUrl = import.meta.env.VITE_API_URL || 'https://dublajlab-api.onrender.com
 if (envUrl && !envUrl.startsWith('http')) {
   envUrl = 'https://' + envUrl;
 }
-export const API_URL = envUrl;
+export const API_URL = envUrl.replace(/\/+$/, '');
 const API_BASE = API_URL + '/api';
 
 /**
