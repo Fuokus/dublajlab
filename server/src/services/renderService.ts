@@ -179,11 +179,13 @@ export async function renderFinalVideo(
     }
 
     // Tüm ses streamlerini birleştir
-    if (audioMode === 'original' || audioMode === 'background') {
-      // Orijinal sesi de dahil et
-      filterComplex += `[0:a]volume=0.3[origaudio]; `;
-      audioStreams.unshift('[origaudio]');
-    }
+    // Orijinal sesi her zaman ekleyelim ki video süresiyle aynı uzunlukta bir ses katmanı olsun (apad gibi davranır)
+    let origVolume = '0.0'; // muted
+    if (audioMode === 'original') origVolume = '1.0';
+    else if (audioMode === 'background') origVolume = '0.15';
+    
+    filterComplex += `[0:a]volume=${origVolume}[origaudio]; `;
+    audioStreams.unshift('[origaudio]');
 
     filterComplex += `${audioStreams.join('')}amix=inputs=${audioStreams.length}:duration=longest:dropout_transition=0[outa]`;
 

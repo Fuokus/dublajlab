@@ -2,7 +2,11 @@ import type { Scene, Recording } from '../types';
 import { getToken } from './auth';
 
 // Vercel gibi ortamlarda statik sunucu olduğu için backend adresini env dosyasından alıyoruz
-export const API_URL = import.meta.env.VITE_API_URL || 'https://dublajlab-api.onrender.com';
+let envUrl = import.meta.env.VITE_API_URL || 'https://dublajlab-api.onrender.com';
+if (envUrl && !envUrl.startsWith('http')) {
+  envUrl = 'https://' + envUrl;
+}
+export const API_URL = envUrl;
 const API_BASE = API_URL + '/api';
 
 /**
