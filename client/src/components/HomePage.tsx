@@ -112,7 +112,7 @@ export default function HomePage({ onCreateRoom, onJoinRoom, error, connected, u
   };
 
   const handleDiscordLogin = () => {
-    window.location.href = '/api/auth/discord';
+    window.location.href = `${import.meta.env.VITE_API_URL || ''}/api/auth/discord`;
   };
 
   const handleLogout = () => {
