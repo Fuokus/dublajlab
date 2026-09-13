@@ -1,0 +1,29 @@
+{
+  "name": "dublajlab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arkadaşlarınla sahneleri kendi sesinizle yeniden dublajla",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "build": "npm run build -w client",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev --name init",
+    "db:seed": "npx tsx prisma/seed.ts",
+    "db:setup": "npm run db:migrate && npm run db:seed",
+    "postinstall": "npx prisma generate"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "prisma": "^6.1.0",
+    "tsx": "^4.19.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.1.0"
+  }
+}
