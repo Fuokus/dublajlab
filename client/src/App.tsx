@@ -38,15 +38,16 @@ function AppContent() {
     const tokenFromUrl = params.get('token');
     const errorFromUrl = params.get('error');
 
-    if (tokenFromUrl) {
-      saveToken(tokenFromUrl);
-      // URL'yi temizle
-      window.history.replaceState({}, document.title, '/');
-    }
+    const roomFromUrl = params.get('room');
 
-    if (errorFromUrl) {
-      console.error('Discord giriş hatası:', errorFromUrl);
-      window.history.replaceState({}, document.title, '/');
+    if (tokenFromUrl || errorFromUrl) {
+      if (tokenFromUrl) saveToken(tokenFromUrl);
+      if (errorFromUrl) console.error('Discord giriş hatası:', errorFromUrl);
+      
+      // Sadece token ve error'u temizle, room kalsın
+      let newUrl = '/';
+      if (roomFromUrl) newUrl += `?room=${roomFromUrl}`;
+      window.history.replaceState({}, document.title, newUrl);
     }
 
     // Mevcut kullanıcıyı kontrol et

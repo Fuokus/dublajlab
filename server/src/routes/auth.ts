@@ -12,20 +12,26 @@ const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 
 // Discord'a yönlendirme rotası
 router.get('/discord', (req, res) => {
+  const { room } = req.query;
+
   if (!DISCORD_CLIENT_ID) {
     return res.status(500).json({ error: 'Discord Client ID bulunamadı. Lütfen .env dosyasını kontrol edin.' });
   }
   
-  const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(
+  let discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(
     DISCORD_REDIRECT_URI
   )}&response_type=code&scope=identify`;
+
+  if (room) {
+    discordAuthUrl += `&state=${encodeURIComponent(room as string)}`;
+  }
 
   res.redirect(discordAuthUrl);
 });
 
 // Discord'dan dönen callback rotası
 router.get('/discord/callback', async (req, res) => {
-  const { code } = req.query;
+  const { code, state } = req.query;
 
   if (!code) {
     return res.redirect(`${CLIENT_URL}?error=Discord_Giris_Iptal_Edildi`);
@@ -75,7 +81,11 @@ router.get('/discord/callback', async (req, res) => {
 
     // 4. Frontend'e token ile yönlendir
     // Token'i query parametresi olarak gönderiyoruz. Frontend bunu alıp localStorage'a kaydedecek.
-    res.redirect(`${CLIENT_URL}?token=${token}`);
+    let redirectUrl = `${CLIENT_URL}?token=${token}`;
+    if (state) {
+      redirectUrl += `&room=${state}`;
+    }
+    res.redirect(redirectUrl);
   } catch (error) {
     console.error('Discord Auth Hatası:', error);
     res.redirect(`${CLIENT_URL}?error=Discord_Giris_Basarisiz`);

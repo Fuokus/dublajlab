@@ -16,6 +16,23 @@ export default function HomePage({ onCreateRoom, onJoinRoom, error, connected, u
   const [roomCode, setRoomCode] = useState('');
   const [mode, setMode] = useState<'home' | 'join'>('home');
   const [localError, setLocalError] = useState<string | null>(null);
+
+  // Otomatik odaya katılma mantığı (Davet linki)
+  useEffect(() => {
+    if (user && connected) {
+      const params = new URLSearchParams(window.location.search);
+      const roomParam = params.get('room');
+      
+      if (roomParam) {
+        const token = getToken();
+        if (token) {
+          onJoinRoom(roomParam.trim().toUpperCase(), token);
+          // Parametreyi temizle ki sayfayı yenileyince tekrar denemesin
+          window.history.replaceState({}, document.title, '/');
+        }
+      }
+    }
+  }, [user, connected, onJoinRoom]);
   
   const [floatingQuotes, setFloatingQuotes] = useState<any[]>([]);
   const quoteIdCounter = useRef(0);
@@ -112,7 +129,13 @@ export default function HomePage({ onCreateRoom, onJoinRoom, error, connected, u
   };
 
   const handleDiscordLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || ''}/api/auth/discord`;
+    const params = new URLSearchParams(window.location.search);
+    const roomParam = params.get('room');
+    let url = `${import.meta.env.VITE_API_URL || ''}/api/auth/discord`;
+    if (roomParam) {
+      url += `?room=${roomParam}`;
+    }
+    window.location.href = url;
   };
 
   const handleLogout = () => {

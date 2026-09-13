@@ -37,14 +37,15 @@ export default function RoomLobby({
       .finally(() => setLoadingScenes(false));
   }, []);
 
-  const copyRoomCode = async () => {
+  const copyInviteLink = async () => {
+    const inviteLink = `${window.location.origin}/?room=${room.code}`;
     try {
-      await navigator.clipboard.writeText(room.code);
+      await navigator.clipboard.writeText(inviteLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       const el = document.createElement('textarea');
-      el.value = room.code;
+      el.value = inviteLink;
       document.body.appendChild(el);
       el.select();
       document.execCommand('copy');
@@ -92,10 +93,10 @@ export default function RoomLobby({
               {room.code}
             </span>
             <button
-              onClick={copyRoomCode}
+              onClick={copyInviteLink}
               className="p-2.5 rounded-xl transition-all duration-300 hover:scale-105"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
-              title="Kopyala"
+              title="Davet Linkini Kopyala"
             >
               {copied ? (
                 <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
