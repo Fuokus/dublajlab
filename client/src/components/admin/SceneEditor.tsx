@@ -115,7 +115,7 @@ export default function SceneEditor({ scene, onClose }: { scene: Scene | null, o
         description,
         videoPath,
         audioMode,
-        characters
+        characters: characters as any
       };
 
       if (scene) {

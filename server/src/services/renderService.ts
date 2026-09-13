@@ -26,7 +26,7 @@ type ProgressCallback = (progress: RenderProgress) => void;
 export async function checkFFmpeg(): Promise<boolean> {
   return new Promise((resolve) => {
     // Statik ffmpeg binary yolunu kullanıyoruz
-    const proc = spawn(ffmpegPath, ['-version'], { shell: true });
+    const proc = spawn(ffmpegPath, ['-version']);
     proc.on('error', () => resolve(false));
     proc.on('close', (code) => resolve(code === 0));
   });
