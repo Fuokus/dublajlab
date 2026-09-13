@@ -29,8 +29,10 @@ export default function GameScreen({ room, playerId, onRecordingComplete, error 
     return room.scene.characters.flatMap((c) => c.dialogues);
   }, [room.scene]);
 
-  // TEST MODU: Oyuncu tüm replikleri kaydedebilsin diye geçici olarak tümünü listeliyoruz
-  const myDialogues: Dialogue[] = allDialogues.sort((a, b) => a.orderIndex - b.orderIndex);
+  // NORMAL MOD: Sadece kendi karakterinin repliklerini kaydet
+  const myDialogues: Dialogue[] = myCharacter?.dialogues 
+    ? [...myCharacter.dialogues].sort((a, b) => a.orderIndex - b.orderIndex)
+    : [];
 
   const totalDialogues = allDialogues.length;
   const allMyDialoguesComplete = myDialogues.length > 0 && myDialogues.every((d) => completedDialogues.has(d.id));
@@ -164,7 +166,7 @@ export default function GameScreen({ room, playerId, onRecordingComplete, error 
                 <h2 className="text-base font-bold text-white flex items-center gap-2">
                   <span className="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
                     style={{ background: 'rgba(45, 212, 168, 0.15)' }}>🎙️</span>
-                  Kayıt Stüdyosu (Test Modu)
+                  Kayıt Stüdyosu
                 </h2>
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
                   <span className="text-xs text-gray-400">Tamamlanan:</span>
